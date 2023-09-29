@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ende</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/img/Logo.png">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="container">
+            <a class="navbar-brand" href="./index.html">
+                <img src="./img/Logo.png" alt="" width="110" height="auto">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item ">
+                        <a class="nav-link text-white" href="./simulacion.html">simulacion-1</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link text-white" href="./simulacion2.html">Simulacion-2</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link text-white" href="contacto.html">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Calcula tu Consumo de Energía</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-container">
+                    <label for="lectura-anterior">Lectura Anterior (kWh):</label>
+                    <input type="number" class="form-control" id="lectura-anterior" placeholder="Lectura anterior">
+                </div>
+                <div class="input-container">
+                    <label for="lectura-actual">Lectura Actual (kWh):</label>
+                    <input type="number" class="form-control" id="lectura-actual" placeholder="Lectura actual">
+                </div>
+                <button class="bt" id="calcular"> <span>Calcular</span></button>
+                <div id="resultado" class="mt-4">
+                    <p>Consumo: <span id="consumo-kwh">0.00 kWh</span></p>
+                    <p>Importe por Energía: <span id="costo-bolivianos">0.00 Bs</span></p>
+                    <p>Tasa de Alumbrado Público: <span id="costo-alumbrado">0.00 Bs</span></p>
+                    <p>Tasa de Aseo y Recojo de Basura: <span id="costo-basura">0.00 Bs</span></p>
+                    <div class="cont-total">
+                        <p>Costo Total: <span id="costo-total">0.00 bolivianos</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer text-white text-center mt-5 py-3 ">
+        &copy; 2023 Empresa regulada por la Autoridad de Fiscalización de Electricidad y Tecnología Nuclear
+    </footer>
+    
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

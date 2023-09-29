@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ende</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/img/Logo.png">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="container">
+            <a class="navbar-brand" href="./index.html">
+                <img src="./img/Logo.png" alt="" width="110" height="auto">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/simulacion.html">simulacion-1</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="contacto.html">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Simulacion con tus Rangos tu Consumo de Energia</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-container">
+                    <label for="lectura-anterior">Lectura Anterior (kWh):</label>
+                    <input type="number" class="form-control" id="lectura-anterior" placeholder="Lectura anterior">
+                </div>
+                <div class="input-container">
+                    <label for="lectura-actual">Lectura Actual (kWh):</label>
+                    <input type="number" class="form-control" id="lectura-actual" placeholder="Lectura actual">
+                </div>
+
+                <!-- Tabla de precio de la luz -->
+                <h2>Rango de Energía</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Límite Superior (kWh)</th>
+                            <th>Tarifa (Bs/kWh)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tarifasEnergiaTable">
+                        <!-- Aquí se cargarán las tarifas de Energía -->
+                    </tbody>
+                </table>
+
+                <h4>Agregar/Editar Tarifa de Energía</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="limiteSuperiorEnergia">Límite Superior</label>
+                            <input type="number" class="form-control" id="limiteSuperiorEnergia" placeholder="Límite Superior">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="tarifaEnergia">Tarifa (Bs/kWh):</label>
+                            <input type="number" class="form-control" id="tarifaEnergia" placeholder="Tarifa">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" id="agregarEditarEnergiaButton">Agregar/Editar</button>
+                        <button class="btn btn-secondary" id="limpiarEnergiaButton">Limpiar</button>
+                    </div>
+                </div>
+
+                <!-- Campo para el porcentaje de alumbrado público -->
+                <h2>Porcentaje de Alumbrado Público</h2>
+                <div class="input-container">
+                    <label for="porcentaje-alumbrado">Porcentaje (%):</label>
+                    <input type="number" class="form-control" id="porcentaje-alumbrado" placeholder="Porcentaje">
+                </div>
+
+                <!-- Tabla de tarifa de basura -->
+                <h2>Rango de Tasa de Aseo y Recojo de Basura</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Límite Superior (kWh)</th>
+                            <th>Tarifa (Bs/kWh)</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tarifasBasuraTable">
+                        <!-- Aquí se cargarán las tarifas de Basura -->
+                    </tbody>
+                </table>
+
+                <h4>Agregar/Editar Tarifa de Basura</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="limiteSuperiorBasura">Límite Superior</label>
+                            <input type="number" class="form-control" id="limiteSuperiorBasura" placeholder="Límite Superior">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="tarifaBasura">Tarifa (Bs/kWh):</label>
+                            <input type="number" class="form-control" id="tarifaBasura" placeholder="Tarifa">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" id="agregarEditarBasuraButton">Agregar/Editar</button>
+                        <button class="btn btn-secondary" id="limpiarBasuraButton">Limpiar</button>
+                    </div>
+                </div>
+
+                <!-- Botón para calcular los valores -->
+                <button class="btn btn-primary mt-4" id="calcularValores">Calcular Valores</button>
+                <div id="resultado" class="mt-4">
+                    <p>Consumo: <span id="consumo-kwh">0.00 kWh</span></p>
+                    <p>Importe por Energía: <span id="costo-bolivianos">0.00 Bs</span></p>
+                    <p>Tasa de Alumbrado Público: <span id="costo-alumbrado">0.00 Bs</span></p>
+                    <p>Tasa de Aseo y Recojo de Basura: <span id="costo-basura">0.00 Bs</span></p>
+                    <div class="cont-total">
+                        <p>Costo Total: <span id="costo-total">0.00 Bolivianos</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer text-white text-center mt-5 py-3">
+        &copy; 2023 Empresa regulada por la Autoridad de Fiscalización de Electricidad y Tecnología Nuclear
+    </footer>
+
+    <script src="./js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // JavaScript para gestionar las tarifas y el porcentaje de Alumbrado Público
+        document.addEventListener("DOMContentLoaded", function () {
+            const tarifasEnergiaTable = document.getElementById("tarifasEnergiaTable");
+            const limiteSuperiorEnergiaInput = document.getElementById("limiteSuperiorEnergia");
+            const tarifaEnergiaInput = document.getElementById("tarifaEnergia");
+            const agregarEditarEnergiaButton = document.getElementById("agregarEditarEnergiaButton");
+            const limpiarEnergiaButton = document.getElementById("limpiarEnergiaButton");
+
+            const tarifasBasuraTable = document.getElementById("tarifasBasuraTable");
+            const limiteSuperiorBasuraInput = document.getElementById("limiteSuperiorBasura");
+            const tarifaBasuraInput = document.getElementById("tarifaBasura");
+            const agregarEditarBasuraButton = document.getElementById("agregarEditarBasuraButton");
+            const limpiarBasuraButton = document.getElementById("limpiarBasuraButton");
+
+            const porcentajeAlumbradoInput = document.getElementById("porcentaje-alumbrado");
+
+            // Datos iniciales de tarifas de Energía 
+            const datosInicialesEnergia = [
+                { id: 1, limiteSuperior: 20, tarifa: 11.275 },
+                { id: 2, limiteSuperior: 100, tarifa: 0.656 },
+                { id: 3, limiteSuperior: 200, tarifa: 0.761 },
+                { id: 4, limiteSuperior: 500, tarifa: 0.891 },
+                { id: 5, limiteSuperior: 1000, tarifa: 0.971 },
+                { id: 6, limiteSuperior: 1001, tarifa: 1.372 },
+                // Agrega más datos iniciales si es necesario
+            ];
+
+            //Datos iniciales de la basura
+            const datosInicialesBasura = [
+                { id: 1, limiteSuperior: 50, tarifa: 5 },
+                { id: 2, limiteSuperior: 100, tarifa: 10 },
+                { id: 3, limiteSuperior: 150, tarifa: 18 },
+                { id: 4, limiteSuperior: 200, tarifa: 20 },
+                { id: 5, limiteSuperior: 250, tarifa: 25 },
+                { id: 6, limiteSuperior: 300, tarifa: 30 },
+                { id: 7, limiteSuperior: 350, tarifa: 35 },
+                { id: 8, limiteSuperior: 400, tarifa: 40 },
+                { id: 9, limiteSuperior: 450, tarifa: 45 },
+                { id: 10,limiteSuperior: 500, tarifa: 50 },
+                { id: 11,limiteSuperior: 600, tarifa: 60 },
+                { id: 12,limiteSuperior: 700, tarifa: 70 },
+                { id: 13,limiteSuperior: 800, tarifa: 80 },
+                { id: 14,limiteSuperior: 900, tarifa: 90 },
+                { id: 15,limiteSuperior: 1000, tarifa: 100 },
+                { id: 16,limiteSuperior: Infinity, tarifa: 150 },
+                // Agrega más datos iniciales si es necesario
+            ];
+
+            // Función para cargar la tabla de tarifas de Energía
+            function cargarTablaEnergia() {
+                let tableHTML = "";
+                for (const tarifa of datosInicialesEnergia) {
+                    tableHTML += `
+                        <tr>
+                            <td>${tarifa.limiteSuperior}</td>
+                            <td>${tarifa.tarifa}</td>
+                            <td>
+                                <button class="btn btn-primary editar-energia" data-index="${tarifa.id}">Editar</button>
+                                <button class="btn btn-danger eliminar-energia" data-index="${tarifa.id}">Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+                tarifasEnergiaTable.innerHTML = tableHTML;
+            }
+
+            // Función para agregar o editar una tarifa de Energía
+            function agregarEditarTarifaEnergia() {
+                // Obtiene los valores ingresados por el usuario
+                const limiteSuperior = parseFloat(limiteSuperiorEnergiaInput.value);
+                const tarifa = parseFloat(tarifaEnergiaInput.value);
+
+                // Valida que los valores sean números válidos
+                if (!isNaN(limiteSuperior) && !isNaN(tarifa)) {
+                    const index = agregarEditarEnergiaButton.dataset.index;
+                    if (index) {
+                        // Si hay un índice, se está editando una tarifa existente
+                        datosInicialesEnergia[index - 1] = { id: index, limiteSuperior, tarifa };
+                        agregarEditarEnergiaButton.removeAttribute("data-index");
+                    } else {
+                        // Si no hay un índice, se está agregando una nueva tarifa
+                        const id = datosInicialesEnergia.length + 1;
+                        datosInicialesEnergia.push({ id, limiteSuperior, tarifa });
+                    }
+                    // Actualiza la tabla y limpia los campos
+                    cargarTablaEnergia();
+                    limpiarCamposEnergia();
+                } else {
+                    alert("Por favor, ingresa valores válidos.");
+                }
+            }
+
+            // Función para limpiar los campos de tarifa de Energía
+            function limpiarCamposEnergia() {
+                limiteSuperiorEnergiaInput.value = "";
+                tarifaEnergiaInput.value = "";
+            }
+
+            // Función para editar una tarifa de Energía
+            function editarTarifaEnergia(index) {
+                const tarifa = datosInicialesEnergia[index - 1];
+                limiteSuperiorEnergiaInput.value = tarifa.limiteSuperior;
+                tarifaEnergiaInput.value = tarifa.tarifa;
+                agregarEditarEnergiaButton.dataset.index = index;
+            }
+
+            // Función para eliminar una tarifa de Energía
+            function eliminarTarifaEnergia(index) {
+                datosInicialesEnergia.splice(index - 1, 1);
+                cargarTablaEnergia();
+            }
+
+            // Carga la tabla de tarifas de Energía al cargar la página
+            cargarTablaEnergia();
+
+            // Agrega eventos a los botones de tarifas de Energía
+            agregarEditarEnergiaButton.addEventListener("click", agregarEditarTarifaEnergia);
+            limpiarEnergiaButton.addEventListener("click", limpiarCamposEnergia);
+
+            tarifasEnergiaTable.addEventListener("click", (event) => {
+                if (event.target.classList.contains("editar-energia")) {
+                    const index = event.target.dataset.index;
+                    editarTarifaEnergia(index);
+                } else if (event.target.classList.contains("eliminar-energia")) {
+                    const index = event.target.dataset.index;
+                    eliminarTarifaEnergia(index);
+                }
+            });
+
+            // Funciones para gestionar las tarifas de Basura
+            function cargarTablaBasura() {
+                let tableHTML = "";
+                for (const tarifa of datosInicialesBasura) {
+                    tableHTML += `
+                        <tr>
+                            <td>${tarifa.limiteSuperior}</td>
+                            <td>${tarifa.tarifa}</td>
+                            <td>
+                                <button class="btn btn-primary editar-basura" data-index="${tarifa.id}">Editar</button>
+                                <button class="btn btn-danger eliminar-basura" data-index="${tarifa.id}">Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+                tarifasBasuraTable.innerHTML = tableHTML;
+            }
+
+            function agregarEditarTarifaBasura() {
+                const limiteSuperior = parseFloat(limiteSuperiorBasuraInput.value);
+                const tarifa = parseFloat(tarifaBasuraInput.value);
+                if (!isNaN(limiteSuperior) && !isNaN(tarifa)) {
+                    const index = agregarEditarBasuraButton.dataset.index;
+                    if (index) {
+                        datosInicialesBasura[index - 1] = { id: index, limiteSuperior, tarifa };
+                        agregarEditarBasuraButton.removeAttribute("data-index");
+                    } else {
+                        const id = datosInicialesBasura.length + 1;
+                        datosInicialesBasura.push({ id, limiteSuperior, tarifa });
+                    }
+                    cargarTablaBasura();
+                    limpiarCamposBasura();
+                } else {
+                    alert("Por favor, ingresa valores válidos.");
+                }
+            }
+
+            function limpiarCamposBasura() {
+                limiteSuperiorBasuraInput.value = "";
+                tarifaBasuraInput.value = "";
+            }
+
+            function editarTarifaBasura(index) {
+                const tarifa = datosInicialesBasura[index - 1];
+                limiteSuperiorBasuraInput.value = tarifa.limiteSuperior;
+                tarifaBasuraInput.value = tarifa.tarifa;
+                agregarEditarBasuraButton.dataset.index = index;
+            }
+
+            function eliminarTarifaBasura(index) {
+                datosInicialesBasura.splice(index - 1, 1);
+                cargarTablaBasura();
+            }
+
+            cargarTablaBasura();
+
+            agregarEditarBasuraButton.addEventListener("click", agregarEditarTarifaBasura);
+            limpiarBasuraButton.addEventListener("click", limpiarCamposBasura);
+
+            tarifasBasuraTable.addEventListener("click", (event) => {
+                if (event.target.classList.contains("editar-basura")) {
+                    const index = event.target.dataset.index;
+                    editarTarifaBasura(index);
+                } else if (event.target.classList.contains("eliminar-basura")) {
+                    const index = event.target.dataset.index;
+                    eliminarTarifaBasura(index);
+                }
+            });
+
+            // Función para gestionar el porcentaje de Alumbrado Público
+            function gestionarPorcentajeAlumbrado() {
+                const porcentaje = parseFloat(porcentajeAlumbradoInput.value);
+                if (!isNaN(porcentaje)) {
+                    // Calcula la tasa de alumbrado público y muestra el resultado
+                    const consumo = parseFloat(document.getElementById("consumo-kwh").textContent);
+                    const costoAlumbrado = (consumo * porcentaje) / 100;
+                    document.getElementById("costo-alumbrado").textContent = costoAlumbrado.toFixed(2) + " Bs";
+                } else {
+                    alert("Por favor, ingresa un porcentaje válido.");
+                }
+            }
+
+            porcentajeAlumbradoInput.addEventListener("change", gestionarPorcentajeAlumbrado);
+
+            // Función para calcular los valores
+            function calcularValores() {
+                // Obtiene las lecturas anteriores y actuales del usuario
+                const lecturaAnterior = parseFloat(document.getElementById("lectura-anterior").value);
+                const lecturaActual = parseFloat(document.getElementById("lectura-actual").value);
+
+                // Valida que las lecturas sean números válidos
+                if (!isNaN(lecturaAnterior) && !isNaN(lecturaActual)) {
+                    // Calcula el consumo
+                    const consumo = lecturaActual - lecturaAnterior;
+                    document.getElementById("consumo-kwh").textContent = consumo.toFixed(2) + " kWh";
+
+                    // Calcula el costo de energía según las tarifas
+                    let costoEnergia = 0;
+                    for (const tarifa of datosInicialesEnergia) {
+                        if (consumo <= tarifa.limiteSuperior) {
+                            costoEnergia = consumo * tarifa.tarifa;
+                            break;
+                        }
+                    }
+                    document.getElementById("costo-bolivianos").textContent = costoEnergia.toFixed(2) + " Bs";
+
+                    // Calcula la tasa de alumbrado público y la muestra (se actualiza automáticamente si se cambia el porcentaje)
+                    const porcentajeAlumbrado = parseFloat(porcentajeAlumbradoInput.value);
+                    const costoAlumbrado = (consumo * porcentajeAlumbrado) / 100;
+                    document.getElementById("costo-alumbrado").textContent = costoAlumbrado.toFixed(2) + " Bs";
+
+                    // Calcula la tasa de basura según las tarifas
+                    let costoBasura = 0;
+                    for (const tarifa of datosInicialesBasura) {
+                        if (consumo <= tarifa.limiteSuperior) {
+                            costoBasura = tarifa.tarifa;
+                            break;
+                        }
+                    }
+                    document.getElementById("costo-basura").textContent = costoBasura.toFixed(2) + " Bs";
+
+                    // Calcula el costo total
+                    const costoTotal = costoEnergia + costoAlumbrado + costoBasura;
+                    document.getElementById("costo-total").textContent = costoTotal.toFixed(2) + " Bolivianos";
+                } else {
+                    alert("Por favor, ingresa lecturas válidas.");
+                }
+            }
+
+            // Agrega evento al botón de calcular
+            document.getElementById("calcularValores").addEventListener("click", calcularValores);
+        });
+    </script>
+</body>
+</html>
