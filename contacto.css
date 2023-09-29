@@ -73,7 +73,6 @@ body{
 
 /* SECCION CONTACTO */
 .contacto{
-    background-image: url(img/contact_bg.png);
     background-color: #ffffff;
     color: #000000;
     padding: 50px 0;
